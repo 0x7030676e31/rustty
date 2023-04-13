@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "Es2021", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "nodenext",
+    "noUnusedLocals": true,
+    "outDir": "dist/esm",
+    "sourceMap": true,
+    "strict": true,
+    "target": "ESNext",
+  },
+  "include": ["src/**/*.ts"],
+}

@@ -1,0 +1,30 @@
+{
+  "name": "rustty",
+  "version": "1.0.0",
+  "description": "A package that brings the iconic Rust types such as Result and more",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0x7030676e31/rust.js.git"
+  },
+  "scripts": {
+    "build": "rm -rf dist && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc",
+    "build:cjs": "tsc -m CommonJS --outDir dist/cjs"
+  },
+  "author": "0x7030676e31",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^18.15.11"
+  },
+  "keywords": [
+    "rust",
+    "result",
+    "option"
+  ]
+}
