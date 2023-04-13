@@ -1,10 +1,9 @@
 {
   "name": "rustty",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A package that brings the iconic Rust types such as Result and more",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
