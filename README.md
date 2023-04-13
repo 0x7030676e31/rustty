@@ -1,20 +1,20 @@
-# rusty.js
+# rustty
 
-**rust.js** is a JavaScript/TypeScript library that brings the Rust programming language's Result and Option types to the world of JavaScript.
+**rustty** is a JavaScript/TypeScript library that brings the Rust programming language's Result and Option types to the world of JavaScript.
 
 The purpose of this library is to provide JavaScript developers with a way to handle errors and nullable values in a more elegant and type-safe manner, inspired by the Rust language's powerful **Result** and **Option** types.
 
 ## Installation
 
 ```bash
-npm install rust.js
+npm install rustty
 ```
 
 ## Usage
-Once you've installed **rust.js**, you can import it into your project like this:
+Once you've installed **rustty**, you can import it into your project like this:
 
 ```ts
-import "rust.js";
+import "rustty";
 ```
 
 After that, the global objects **Ok**, **Err**, **Some**, and **None** will be available for use in your code. The **Result** and **Option** types are also available as global types.
