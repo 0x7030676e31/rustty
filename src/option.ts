@@ -144,6 +144,10 @@ export default class Option<T> {
     return this._some && other._some ? Option.Some(callback(this._value, other._value)) : Option.None();
   }
 
+  public into<U>(): Option<U> {
+    return this as any;
+  }
+
   [util.inspect.custom](): string {
     return this._some ? `Some(${util.inspect(this._value)})` : "None";
   }

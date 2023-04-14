@@ -73,5 +73,7 @@ In this example, the **divide** function returns a **Some** value if the divisio
 
 For more information on how to use the **Option** type, see the [official Rust documentation](https://doc.rust-lang.org/std/option/).
 
+There are also method called **into** on both **Result** and **Option**. This method allows you change the type of the value inside the **Result** or **Option**. Only usefull if you are using TypeScript.
+
 ## Credits
 This library was inspired by the powerful **Result** and **Option** types in the Rust programming language. For more information on Rust, see the [official Rust website](https://www.rust-lang.org/).

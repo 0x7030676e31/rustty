@@ -146,6 +146,10 @@ export default class Result<T, E = unknown> {
     return fallback(this._value as E);
   }
 
+  public into<U = T, F = E>(): Result<U, F> {
+    return this as any;
+  }
+
   [util.inspect.custom](): string {
     return this._ok ? `Ok(${util.inspect(this._value)})` : `Err(${util.inspect(this._value)})`;
   }
