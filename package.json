@@ -11,6 +11,7 @@
     "type": "git",
     "url": "https://github.com/0x7030676e31/rustty.git"
   },
+  "homepage": "https://github.com/0x7030676e31/rustty#readme",
   "scripts": {
     "build": "rm -rf dist && npm run build:esm && npm run build:cjs",
     "build:esm": "tsc",
