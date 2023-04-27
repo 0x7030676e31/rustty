@@ -17,27 +17,23 @@ export default class Result<T = unknown, E = never> {
   /**
    * Returns provided value if this is Ok, otherwise return current object.
    * @param res Result object to compare with.
-   * @returns This object or provided value.
+   * @returns This object or provided default.
    * @example
    * const a = Ok(1);
    * const b = Ok(2);
-   * 
-   * a.and(b); // Ok(2)
+   * assert(a.and(b).unwrap() === 2);
    * 
    * const c = Err("Error!");
    * const d = Ok(3);
-   * 
-   * c.and(d); // Err("Error!")
+   * assert(c.and(d).unwrapErr() === "Error!");
    * 
    * const e = Ok(4);
    * const f = Err("Error!");
-   * 
-   * e.and(f); // Err("Error!")
+   * assert(e.and(f).unwrapErr() === "Error!");
    * 
    * const g = Err("Error!");
    * const h = Err("Another error!");
-   * 
-   * g.and(h); // Err("Error!")
+   * assert(g.and(h).unwrapErr() === "Error!");
    */
   public and<U>(res: Result<U, E>): Result<U, E> {
     return this._ok ? res : this.into();
@@ -50,12 +46,10 @@ export default class Result<T = unknown, E = never> {
    * @example
    * const ok = Ok("Hello!");
    * const res = ok.andThen(v => v.length); // Callback will be called because `ok` is Ok.
-   * 
    * assert(res.unwrap() === 6);
    * 
    * const err = Err("Error!");
    * const res2 = err.andThen(v => v.length); // In this case callback won't be called
-   * 
    * assert(res2.unwrapErr() === "Error!");
    */
   public andThen<U>(callback: (ok: T) => Result<U, E>): Result<U, E> {
@@ -107,13 +101,13 @@ export default class Result<T = unknown, E = never> {
    * @returns boolean value indicating whether this is Err and contains provided value.
    * @example
    * const a = Ok(1);
-   * assert(a.containsErr(1)); // false
+   * assert(a.containsErr(1) === false);
    * 
    * const b = Err("Error!");
-   * assert(b.containsErr("Error!")); // true
+   * assert(b.containsErr("Error!") === true);
    * 
    * const c = Err("Another error!");
-   * assert(c.containsErr("Error!")); // false
+   * assert(c.containsErr("Error!") === false);
    */
   public containsErr(value: E): boolean {
     return !this._ok && this._value === value;
@@ -125,14 +119,14 @@ export default class Result<T = unknown, E = never> {
    * @example
    * const a = Ok(1);
    * const b = a.err(); // None
-   * assert(b.isNone());
+   * assert(b.isNone()) === true);
    * 
    * const c = Err("Error!");
    * const d = c.err(); // Some("Error!")
-   * assert(d.isSome());
+   * assert(d.isSome() === true);
    */
   public err(): Option<E> {
-    return this._ok ? Option.None() : Option.Some(this._value as E);
+    return this._ok ? None() : Some(this._value as E);
   }
 
   /**
@@ -270,9 +264,9 @@ export default class Result<T = unknown, E = never> {
   }
   
   /**
-   * Checks whether this is Err and the callback returns true.
-   * @param callback Callback to call.
-   * @returns true if this is Err and the callback returns true, false otherwise.
+   * Checks whether this is Err and the predicate returns true.
+   * @param predicate Pallback to call.
+   * @returns true if this is Err and the predicate returns true, false otherwise.
    * @example
    * const a = Ok(1);
    * assert(a.isErrAnd(v => v === "Error!") === false);
@@ -280,8 +274,8 @@ export default class Result<T = unknown, E = never> {
    * const b = Err("Error!");
    * assert(b.isErrAnd(v => v === "Error!") === true);
    */
-  public isErrAnd(callback: (err: E) => boolean): boolean {
-    return !this._ok && callback(this._value as E);
+  public isErrAnd(predicate: (err: E) => boolean): boolean {
+    return !this._ok && predicate(this._value as E);
   }
 
   /**
@@ -299,9 +293,9 @@ export default class Result<T = unknown, E = never> {
   }
 
   /**
-   * Checks whether this is Ok and the callback returns true.
-   * @param callback Callback to call.
-   * @returns true if this is Ok and the callback returns true, false otherwise.
+   * Checks whether this is Ok and the predicate returns true.
+   * @param predicate Predicate to call.
+   * @returns true if this is Ok and the predicate returns true, false otherwise.
    * @example
    * const a = Ok(1);
    * assert(a.isOkAnd(v => v === 1) === true);
@@ -309,13 +303,13 @@ export default class Result<T = unknown, E = never> {
    * const b = Err("Error!");
    * assert(b.isOkAnd(v => v === 1) === false);
    */
-  public isOkAnd(callback: (ok: T) => boolean): boolean {
-    return this._ok && callback(this._value as T);
+  public isOkAnd(predicate: (ok: T) => boolean): boolean {
+    return this._ok && predicate(this._value as T);
   }
 
   /**
    * Returns an iterator over the possibly contained value.
-   * @returns Iterator of ok value.
+   * @returns Iterator of Ok value.
    * @example
    * const a = Ok(1);
    * for (const v of a.iter()) {
@@ -371,7 +365,7 @@ export default class Result<T = unknown, E = never> {
    * Applies a function to the contained value (if Ok), or returns the provided default (if Err).
    * @param fallback Default value to return (if Err).
    * @param callback Callback to call (if Ok).
-   * @returns Result object with modified ok value.
+   * @returns Result object with modified Ok value.
    * @example
    * const a = Ok(1);
    * const b = a.mapOr(5, v => v + 1).unwrap();
@@ -416,7 +410,7 @@ export default class Result<T = unknown, E = never> {
    * assert(d.isNone() === true);
    */
   public ok(): Option<T> {
-    return this._ok ? Option.Some(this._value as T) : Option.None();
+    return this._ok ? Some(this._value as T) : None();
   }
 
   /**
@@ -426,17 +420,14 @@ export default class Result<T = unknown, E = never> {
    * @example
    * const a = Ok(1);
    * const b = a.or(Ok(2)).unwrap();
-   * 
    * assert(b === 1);
    * 
    * const c = Err("Error!");
    * const d = c.or(Ok(2)).unwrap();
-   * 
    * assert(d === 2);
    * 
    * const e = Err("Error!");
    * const f = e.or(Err("Error2!")).unwrapErr();
-   * 
    * assert(f === "Error2!");
    */
   public or<U, F>(fallback: Result<U, F>): Result<T | U, F> {
@@ -450,17 +441,14 @@ export default class Result<T = unknown, E = never> {
    * @example
    * const a = Ok(1);
    * const b = a.orElse(() => Ok(2)).unwrap();
-   * 
    * assert(b === 1);
    * 
    * const c = Err("Error!");
    * const d = c.orElse(() => Ok(2)).unwrap();
-   * 
    * assert(d === 2);
    * 
    * const e = Err("Error!");
    * const f = e.orElse(() => Err("Error2!")).unwrapErr();
-   * 
    * assert(f === "Error2!");
    */ 
   public orElse<U, F>(fallback: (err: E) => Result<U, F>): Result<T | U, F> {
@@ -474,24 +462,21 @@ export default class Result<T = unknown, E = never> {
    * @example
    * const a = Ok(Some(1));
    * const b = a.transpose() // Some(Ok(1))
-   * 
    * assert(b.unwrap().unwrap() === 1); // Some(Ok(1)) -> Ok(1) -> 1
    * 
    * const c = Ok(None());
    * const d = c.transpose() // None
-   * 
    * assert(d.isNone() === true);
    * 
    * const e = Err("Error!");
    * const f = e.transpose() // Some(Err("Error!"))
-   * 
    * assert(f.unwrap().unwrapErr() === "Error!"); // Some(Err("Error!")) -> Err("Error!") -> "Error!"
    */
   public transpose(this: Result<None>): None;
   public transpose(this: Result<never, E>): Some<Result<never, E>>;
   public transpose<U>(this: Result<Some<U>>): Some<Result<U, E>>;
   public transpose<U>(this: Result<Option<U>, E>): Option<Result<U, E>> {
-    return this.unwrap().isNone() ? Option.None() : Option.Some(this.into());
+    return this.unwrap().isNone() ? None() : Some(this.into());
   }
 
   /**
@@ -501,7 +486,6 @@ export default class Result<T = unknown, E = never> {
    * @example
    * const a = Ok(1);
    * const b = a.unwrap();
-   * 
    * assert(b === 1);
    * 
    * const c = Err("Error!");
@@ -519,7 +503,6 @@ export default class Result<T = unknown, E = never> {
    * @example
    * const a = Err("Error!");
    * const b = a.unwrapErr();
-   * 
    * assert(b === "Error!");
    * 
    * const c = Ok(1);
@@ -537,12 +520,10 @@ export default class Result<T = unknown, E = never> {
    * @example
    * const a = Ok(1);
    * const b = a.unwrapOr(2);
-   * 
    * assert(b === 1);
    * 
    * const c = Err("Error!");
    * const d = c.unwrapOr(2);
-   * 
    * assert(d === 2);
    */
   public unwrapOr<U>(fallback: U): T | U {
@@ -556,12 +537,10 @@ export default class Result<T = unknown, E = never> {
    * @example
    * const a = Ok(1);
    * const b = a.unwrapOrElse(() => 2);
-   * 
    * assert(b === 1);
    * 
    * const c = Err("Error!");
    * const d = c.unwrapOrElse(() => 2);
-   * 
    * assert(d === 2);
    */
   public unwrapOrElse<U>(fallback: (err: E) => U): T | U {
@@ -602,15 +581,12 @@ export default class Result<T = unknown, E = never> {
    * Creates a new Result object with a success value.
    * @param value The success value to store in the Result object.
    * @returns A new Result object with a success value.
-   * 
    * @example
    * const result = Ok("Success!");
    *
    * console.log(result); // Ok("Success!")
    * assert(result.isOk()); // true
    * assert(result.unwrap() === "Success!"); // true
-   * 
-   * result.unwrapErr(); // throws Error
    */
   public static Ok<T = void, E = never>(value?: T): Result<T, E> {
     return new Result(true, value);
@@ -620,7 +596,6 @@ export default class Result<T = unknown, E = never> {
    * Creates a new Result object with an error value.
    * @param value The error value to store in the Result object.
    * @returns A new Result object with an error value.
-   * 
    * @example
    * const result = Err("An error occurred");
    * 
