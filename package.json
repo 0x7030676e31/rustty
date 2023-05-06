@@ -1,12 +1,25 @@
 {
   "name": "rustty",
-  "version": "2.0.0",
-  "description": "A package that brings the iconic Rust types such as Result and more",
+  "version": "2.1.0",
+  "description": "A package that brings the iconic Rust types such as Result and Option",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/esm/index.js"
+    },
+    "./full": {
+      "import": "./dist/esm/full.js",
+      "require": "./dist/cjs/full.js",
+      "default": "./dist/esm/full.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/0x7030676e31/rustty.git"

@@ -1,8 +1,8 @@
 import util from "util";
 
 export default class Option<T = unknown> {
-  public _some: boolean;
-  public _value: T;
+  private _some: boolean;
+  private _value: T;
 
   private constructor(some: true, value?: T);
   private constructor(some: false);
