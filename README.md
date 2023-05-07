@@ -2,6 +2,10 @@
 
 **Rustty** is a library that brings various data structures and algorithms such as iconic **Result** and **Option** from the Rust standard library to the JavaScript world.
 
+---
+
+If you like this project, please consider leaving a star on the [GitHub repository](https://github.com/0x7030676e31/rustty) ✨
+
 ## Installation
 
 ```bash
