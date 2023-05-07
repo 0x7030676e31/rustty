@@ -6,7 +6,8 @@
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "LICENSE"
   ],
   "exports": {
     ".": {
@@ -14,7 +15,7 @@
       "require": "./dist/cjs/index.js",
       "default": "./dist/esm/index.js"
     },
-    "./full": {
+  "./full": {
       "import": "./dist/esm/full.js",
       "require": "./dist/cjs/full.js",
       "default": "./dist/esm/full.js"

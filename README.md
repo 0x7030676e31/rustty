@@ -1,10 +1,6 @@
-# README TO BE UPDATED
+# Rustty
 
-# rustty
-
-**rustty** is a JavaScript/TypeScript library that brings the Rust programming language's Result and Option types to the world of JavaScript.
-
-The purpose of this library is to provide JavaScript developers with a way to handle errors and nullable values in a more elegant and type-safe manner, inspired by the Rust language's powerful **Result** and **Option** types.
+**Rustty** is a library that brings various data structures and algorithms such as iconic **Result** and **Option** from the Rust standard library to the JavaScript world.
 
 ## Installation
 
@@ -13,69 +9,99 @@ npm install rustty
 ```
 
 ## Usage
-Once you've installed **rustty**, you can import it into your project like this:
+
+You can either import the whole library or just the **Result** and **Option** types.
+
+```js
+import "rustty";
+```
+Will import only the **Result** and **Option** types.
+On the other hand, if you want to import the whole library, you can do by using the following statement:
+
+```js
+import "rustty/full";
+```
+Note that using the full version will add a lot of methods to the prototypes of the built-in types such as **Array**.
+
+## Examples
+### Using Result and Option 
 
 ```ts
 import "rustty";
-```
 
-After that, the global objects **Ok**, **Err**, **Some**, and **None** will be available for use in your code. The **Result** and **Option** types are also available as global types.
-
-Note that all of the methods of **Result** as well as **Option** have been camelCased, so instead of **unwrap_or**, use **unwrapOr**.
-
-## Using Result
-A **Result** type represents either a success with a value of type *T* or a failure with an error of type *E*.
-
-Here's an example of how to use the Result type in TypeScript:
-
-```ts
-function divide(x: number, y: number): Result<number, string> {
-  if (y === 0) {
-    return Err("division by zero");
-  }
-  
-  return Ok(x / y);
-}
-
-const result = divide(6, 3);
-if (result.isOk()) {
-  console.log("The result is", result.unwrap());
-} else {
-  console.log("There was an error:", result.unwrapErr());
-}
-
-```
-In this example, the **divide** function returns an **Ok** value if the division succeeds, and an **Err** value if the division fails (i.e., if the second argument is zero). We can then use the **isOk** and **unwrap** methods to extract the value from the **Ok** result, or the **unwrapErr** method to extract the error from the **Err** result.
-
-For more information on how to use the **Result** type, see the [official Rust documentation](https://doc.rust-lang.org/std/result/).
-
-## using Option
-An **Option** type represents a value that may or may not be present. It can be either **Some(value)** or **None**.
-
-Here's an example of how to use the Option type in TypeScript:
-
-```ts
-function divide(x: number, y: number): Option<number> {
-  if (y === 0) {
-    return None();
+function divide(a: number, b: number): Result<number, string> {
+  if (b === 0) {
+    return Err("Division by zero");
   }
 
-  return Some(x / y);
+  return Ok(a / b);
 }
 
-const result = divide(6, 3);
-if (result.isSome()) {
-  console.log("The result is", result.unwrap());
-} else {
-  console.log("The result is null or undefined");
+const result = divide(10, 5); // Ok(2)
+
+console.assert(result.isOk() === true); 
+console.assert(result.unwrap() === 2);
+
+const failed = divide(10, 0); // Err("Division by zero")
+
+console.assert(failed.isErr() === true);
+console.assert(failed.unwrapErr() === "Division by zero");
+
+// Alternatively, you can use Option type to indicate that the result may be null or undefined
+
+function divide(a: number, b: number): Option<number> {
+  if (b === 0) {
+    return None;
+  }
+
+  return Some(a / b);
 }
+
+const result = divide(10, 5).unwrap(); // 2
+const failed = divide(10, 0).unwrap(); // Throws an error
 ```
 
-In this example, the **divide** function returns a **Some** value if the division succeeds, and a **None** value if the division fails (i.e., if the second argument is zero). We can then use the **isSome** and **unwrap** methods to extract the value from the **Some** result, or handle the case where the result is **None**.
+### Using additional methods
 
-For more information on how to use the **Option** type, see the [official Rust documentation](https://doc.rust-lang.org/std/option/).
+```ts
+import "rustty/full";
 
-There are also method called **into** on both **Result** and **Option**. This method allows you change the type of the value inside the **Result** or **Option**. Only usefull if you are using TypeScript. It should be considered as a replacement for the *as* keyword.
+const arr = [1, 2, 3, 4, 5];
 
-## Credits
-This library was inspired by the powerful **Result** and **Option** types in the Rust programming language. For more information on Rust, see the [official Rust website](https://www.rust-lang.org/).
+// Swap elements at indices 0 and 4
+arr.swap(0, 4);
+
+arr.windows(2).forEach(window => {
+  console.log(window); // [5, 2], [2, 3], [3, 4], [4, 1]
+});
+
+console.assert(arr.sum() === 15);
+console.assert(arr.product() === 120);
+
+arr.swap(0, 4);
+
+arr
+  .groupBy((a, b) => Math.round(a / 2) === Math.round(b / 2))
+  .forEach(group => console.log(group)); // [1, 2], [3, 4], [5]
+
+arr.assert(arr.max() === 5);
+arr.assert(arr.min() === 1);
+```
+
+## Features
+Note that every name has been changed to camelCase to be consistent with the JavaScript naming convention.
+
+- [✅] Result with most of its methods (Global scope)
+- [✅] Option with most of its methods (Global scope)
+- [✅] Most of the methods from Vec (Array) (drain_filter -> spliceFilter)
+- [✅] Most of the methods from Slice (Array)
+- [✅] Most of the methods from Iterator (Array)
+- [❌] Most of the methods from String
+- [❌] Most of the methods from HashMap
+- [❌] Most of the methods from HashSet
+- [❌] Most of the methods from Numbers
+
+If you can't find a method that you need, feel free to open an issue or a pull request.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details

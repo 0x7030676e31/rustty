@@ -19,19 +19,19 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * const b = None();
-   * assert(a.and(b).isNone() === true);
+   * console.assert(a.and(b).isNone() === true);
    * 
    * const c = Some(1);
    * const d = Some(2);
-   * assert(c.and(d).unwrap() === 2);
+   * console.assert(c.and(d).unwrap() === 2);
    * 
    * const e = None();
    * const f = Some(2);
-   * assert(e.and(f).isNone() === true);
+   * console.assert(e.and(f).isNone() === true);
    * 
    * const g = None();
    * const h = None();
-   * assert(g.and(h).isNone() === true);
+   * console.assert(g.and(h).isNone() === true);
    */
   public and<U>(optb: Option<U>): Option<U> {
     return this._some ? optb : this.into();
@@ -44,11 +44,11 @@ export default class Option<T = unknown> {
    * @example
    * const some = Some("Hello!");
    * const res = ok.andThen(v => v.length); // Callback will be called because `some` is Some.
-   * assert(res.unwrap() === 6);
+   * console.assert(res.unwrap() === 6);
    * 
    * const none = None();
    * const res2 = none.andThen(v => v.length); // In this case callback won't be called
-   * assert(res2.isNone() === true);
+   * console.assert(res2.isNone() === true);
    */
   public andThen<U>(callback: (value: T) => Option<U>): Option<U> {
     return this._some ? callback(this._value) : this.into();
@@ -60,7 +60,7 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * const b = a.cloned().unwrap();
-   * assert(a.unwrap() === b);
+   * console.assert(a.unwrap() === b);
    * 
    * class NotCloneable {
    *   public sayHello() {
@@ -81,13 +81,13 @@ export default class Option<T = unknown> {
    * @returns boolean value indicating whether this is Some and contains provided value.
    * @example
    * const a = Some(1);
-   * assert(a.contains(1) === true);
+   * console.assert(a.contains(1) === true);
    * 
    * const b = None();
-   * assert(b.contains(1) === false);
+   * console.assert(b.contains(1) === false);
    * 
    * const c = Some(2);
-   * assert(c.contains(1) === false);
+   * console.assert(c.contains(1) === false);
    */
   public contains(value: T): boolean {
     return this._some && this._value === value;
@@ -99,7 +99,7 @@ export default class Option<T = unknown> {
    * @returns Some value.
    * @example
    * const a = Some(1);
-   * assert(a.expect("Error!") === 1);
+   * console.assert(a.expect("Error!") === 1);
    * 
    * const b = None();
    * b.expect("Error!"); // This will throw an error
@@ -119,17 +119,17 @@ export default class Option<T = unknown> {
    * const a = Some(1);
    * const b = a.filter(isEven);
    * 
-   * assert(b.isNone() === true);
+   * console.assert(b.isNone() === true);
    * 
    * const c = Some(2);
    * const d = c.filter(isEven);
    * 
-   * assert(d.unwrap() === 2);
+   * console.assert(d.unwrap() === 2);
    * 
    * const e = None();
    * const f = e.filter(isEven);
    * 
-   * assert(f.isNone() === true);
+   * console.assert(f.isNone() === true);
    */
   public filter(predicate: (some: T) => boolean): Option<T> {
     return this._some && predicate(this._value) ? this : None();
@@ -141,15 +141,15 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(Some(1));
    * const b = a.flatten();
-   * assert(b.unwrap() === 1);
+   * console.assert(b.unwrap() === 1);
    * 
    * const c = Some(None());
    * const d = c.flatten();
-   * assert(d.isNone() === true);
+   * console.assert(d.isNone() === true);
    * 
    * const e = None();
    * const f = e.flatten();
-   * assert(f.isNone() === true);
+   * console.assert(f.isNone() === true);
    */
   public flatten<U>(this: Option<Option<U>>): Option<U> {
     return this._some ? this._value : None();
@@ -178,10 +178,10 @@ export default class Option<T = unknown> {
    * @returns true if this is None, false otherwise.
    * @example
    * const a = Some(1);
-   * assert(a.isNone() === false);
+   * console.assert(a.isNone() === false);
    * 
    * const b = None();
-   * assert(b.isNone() === true);
+   * console.assert(b.isNone() === true);
    */
   public isNone(): boolean {
     return !this._some;
@@ -192,10 +192,10 @@ export default class Option<T = unknown> {
    * @returns true if this is Some, false otherwise.
    * @example
    * const a = Some(1);
-   * assert(a.isSome() === true);
+   * console.assert(a.isSome() === true);
    * 
    * const b = None();
-   * assert(b.isSome() === false);
+   * console.assert(b.isSome() === false);
    */
   public isSome(): boolean {
     return this._some;
@@ -207,10 +207,10 @@ export default class Option<T = unknown> {
    * @returns true if this is Ok and the callback returns true, false otherwise.
    * @example
    * const a = Ok(1);
-   * assert(a.isSomeAnd(v => v === 1) === true);
+   * console.assert(a.isSomeAnd(v => v === 1) === true);
    * 
    * const b = Err("Error!");
-   * assert(b.isSomeAnd(v => v === 1) === false);
+   * console.assert(b.isSomeAnd(v => v === 1) === false);
    */
   public isSomeAnd(predicate: (some: T) => boolean): boolean {
     return this._some && predicate(this._value);
@@ -222,12 +222,12 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * for (const v of a.iter()) {
-   *   assert(v === 1);
+   *   console.assert(v === 1);
    * }
    * 
    * const b = None();
    * for (const v of b.iter()) {
-   *   assert(false); // This won't be called
+   *   console.assert(false); // This won't be called
    * }
    */
   public *iter(): Generator<T, void, unknown> {
@@ -241,11 +241,11 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * const b = a.map(v => v + 1).unwrap();
-   * assert(b === 2);
+   * console.assert(b === 2);
    * 
    * const c = None();
    * const d = c.map(v => v + 1);
-   * assert(d.isNone() === true);
+   * console.assert(d.isNone() === true);
    */
   public map<U>(callback: (some: T) => U): Option<U> {
     if (this._some) this._value = callback(this._value) as unknown as T;
@@ -260,11 +260,11 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * const b = a.mapOr(5, v => v + 1).unwrap();
-   * assert(b === 2);
+   * console.assert(b === 2);
    * 
    * const c = None();
    * const d = c.mapOr(5, v => v + 1);
-   * assert(d === 5);
+   * console.assert(d === 5);
    */
   public mapOr<U>(fallback: U, callback: (some: T) => U): U {
     return this._some ? callback(this._value) : fallback;
@@ -278,11 +278,11 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * const b = a.mapOrElse(() => 5, v => v + 1).unwrap();
-   * assert(b === 2);
+   * console.assert(b === 2);
    * 
    * const c = None();
    * const d = c.mapOrElse(() => 5, v => v + 1).unwrap();
-   * assert(d === 5);
+   * console.assert(d === 5);
    */
   public mapOrElse<U>(fallback: () => U, callback: (some: T) => U): U {
     return this._some ? callback(this._value) : fallback();
@@ -295,11 +295,11 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * const b = a.okOr("Error!").unwrap();
-   * assert(b === 1);
+   * console.assert(b === 1);
    * 
    * const c = None();
    * const d = c.okOr("Error!").unwrapErr();
-   * assert(d === "Error!");
+   * console.assert(d === "Error!");
    */
   public okOr<E>(err: E): Result<T, E> {
     return this._some ? Ok(this._value) : Err(err);
@@ -312,11 +312,11 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * const b = a.okOrElse(() => "Error!").unwrap();
-   * assert(b === 1);
+   * console.assert(b === 1);
    * 
    * const c = None();
    * const d = c.okOrElse(() => "Error!").unwrapErr();
-   * assert(d === "Error!");
+   * console.assert(d === "Error!");
    */
   public okOrElse<E>(err: () => E): Result<T, E> {
     return this._some ? Ok(this._value) : Err(err());
@@ -329,19 +329,19 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * const b = a.or(Some(2)).unwrap();
-   * assert(b === 1);
+   * console.assert(b === 1);
    * 
    * const c = None();
    * const d = c.or(Some(2)).unwrap();
-   * assert(d === 2);
+   * console.assert(d === 2);
    * 
    * const e = None();
    * const f = e.or(None()).unwrapErr();
-   * assert(f === "None");
+   * console.assert(f === "None");
    * 
    * const g = Some(1);
    * const h = g.or(None()).unwrap();
-   * assert(h === 1);
+   * console.assert(h === 1);
    */
   public or<U>(fallback: Option<U>): Option<T | U> {
     return this._some ? this : fallback;
@@ -354,18 +354,18 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * const b = a.orElse(() => Some(2)).unwrap();
-   * assert(b === 1);
+   * console.assert(b === 1);
    * 
    * const c = None();
    * const d = c.orElse(() => Some(2)).unwrap();
-   * assert(d === 2);
+   * console.assert(d === 2);
    * 
    * const e = None();
    * const f = e.orElse(() => None()).unwrapErr();
    * 
    * const g = Some(1);
    * const h = g.orElse(() => None()).unwrap();
-   * assert(h === 1);
+   * console.assert(h === 1);
    */
   public orElse<U>(fallback: () => Option<U>): Option<T | U> {
     return this._some ? this : fallback();
@@ -378,13 +378,13 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * const a_old = a.replace(2).unwrap();
-   * assert(a_old === 1);
-   * assert(a.unwrap() === 2);
+   * console.assert(a_old === 1);
+   * console.assert(a.unwrap() === 2);
    * 
    * const b = None();
    * const b_old = b.replace(2).unwrapErr();
-   * assert(b_old === "None");
-   * assert(b.isNone() === true);
+   * console.assert(b_old === "None");
+   * console.assert(b.isNone() === true);
    */
   public replace<U>(value: U): Option<T> {
     const self = this.cloned();
@@ -398,13 +398,13 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * const a_old = a.take().unwrap();
-   * assert(a_old === 1);
-   * assert(a.isNone() === true);
+   * console.assert(a_old === 1);
+   * console.assert(a.isNone() === true);
    * 
    * const b = None();
    * const b_old = b.take().unwrapErr();
-   * assert(b_old.isNone() === true);
-   * assert(b.isNone() === true);
+   * console.assert(b_old.isNone() === true);
+   * console.assert(b.isNone() === true);
    */
   public take(): Option<T> {
     const self = this.cloned();
@@ -420,15 +420,15 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(Ok(1));
    * const b = a.transpose(); // Ok(Some(1))
-   * assert(b.unwrap().unwrap() === 1); // Some(Ok(1)) -> Ok(1) -> 1
+   * console.assert(b.unwrap().unwrap() === 1); // Some(Ok(1)) -> Ok(1) -> 1
    * 
    * const c = Some(Err("Error!"));
    * const d = c.transpose(); // Err("Error!")
-   * assert(d.unwrapErr() === "Error!"); // Err("Error!") -> "Error!"
+   * console.assert(d.unwrapErr() === "Error!"); // Err("Error!") -> "Error!"
    * 
    * const e = None();
    * const f = e.transpose(); // Ok(None)
-   * assert(f.unwrap().isNone() === true); // None -> Ok(None) -> None
+   * console.assert(f.unwrap().isNone() === true); // None -> Ok(None) -> None
    */
   public transpose(this: None): Ok<None>;
   public transpose<U>(this: Some<Ok<U>>): Ok<Some<U>>;
@@ -444,7 +444,7 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * const b = a.unwrap();
-   * assert(b === 1);
+   * console.assert(b === 1);
    * 
    * const c = None();
    * const d = c.unwrap(); // throws Error
@@ -461,11 +461,11 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * const b = a.unwrapOr(2);
-   * assert(b === 1);
+   * console.assert(b === 1);
    * 
    * const c = None();
    * const d = c.unwrapOr(2);
-   * assert(d === 2);
+   * console.assert(d === 2);
    */
   public unwrapOr<U>(fallback: U): T | U {
     return this._some ? this._value : fallback;
@@ -478,11 +478,11 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * const b = a.unwrapOrElse(() => 2);
-   * assert(b === 1);
+   * console.assert(b === 1);
    * 
    * const c = None();
    * const d = c.unwrapOrElse(() => 2);
-   * assert(d === 2);
+   * console.assert(d === 2);
    */
   public unwrapOrElse<U>(fallback: () => U): T | U {
     return this._some ? this._value as T : fallback();
@@ -495,13 +495,13 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some([1, 2]);
    * const [b, c] = a.unzip();
-   * assert(b.unwrap() === 1);
-   * assert(c.unwrap() === 2);
+   * console.assert(b.unwrap() === 1);
+   * console.assert(c.unwrap() === 2);
    * 
    * const d = None();
    * const [e, f] = d.unzip();
-   * assert(e.isNone() === true);
-   * assert(f.isNone() === true);
+   * console.assert(e.isNone() === true);
+   * console.assert(f.isNone() === true);
    */
   public unzip<T, U>(this: Option<[T, U]>): [Option<T>, Option<U>] {
     return this._some ? [Some(this._value[0]), Some(this._value[1])] : [None(), None()];
@@ -514,19 +514,19 @@ export default class Option<T = unknown> {
    * @example
    * const a = Some(1);
    * const b = Some(2);
-   * assert(a.xor(b).isNone() === true);
+   * console.assert(a.xor(b).isNone() === true);
    * 
    * const c = None();
    * const d = Some(2);
-   * assert(c.xor(d).unwrap() === 2);
+   * console.assert(c.xor(d).unwrap() === 2);
    * 
    * const e = Some(1);
    * const f = None();
-   * assert(e.xor(f).unwrap() === 1);
+   * console.assert(e.xor(f).unwrap() === 1);
    * 
    * const g = None();
    * const h = None();
-   * assert(g.xor(h).isNone() === true);
+   * console.assert(g.xor(h).isNone() === true);
    */
   public xor<U>(optb: Option<U>): Option<T | U> {
     if (!optb._some && this._some) return this.into();
@@ -547,8 +547,8 @@ export default class Option<T = unknown> {
    * const d = a.zip(b); // Some([1, "hi"])
    * const e = a.zip(c); // None()
    * 
-   * assert(d.isSome() === true);
-   * assert(e.isNone() === true);
+   * console.assert(d.isSome() === true);
+   * console.assert(e.isNone() === true);
    */
   public zip<U>(other: Option<U>): Option<[T, U]> {
     return this._some && other._some ? Some([this._value, other._value]) : None();
@@ -585,8 +585,8 @@ export default class Option<T = unknown> {
    * const a = x.zipWith(y, Point.new); // Some(Point { x: 31.2, y: 49.5 })
    * const b = x.zipWith(None(), Point.new); // None()
    * 
-   * assert(a.unwrap().cmp(Point.new(31.2, 49.5)) === true);
-   * assert(b.isNone() === true);
+   * console.assert(a.unwrap().cmp(Point.new(31.2, 49.5)) === true);
+   * console.assert(b.isNone() === true);
    */
   public zipWith<U, R>(other: Option<U>, callback: (a: T, b: U) => R): Option<R> {
     return this._some && other._some ? Some(callback(this._value, other._value)) : None();
@@ -630,8 +630,8 @@ export default class Option<T = unknown> {
    * const some = Some(1);
    * 
    * console.log(some); // Some(1)
-   * assert(some.isSome()); // true
-   * assert(some.unwrap() === 1); // true
+   * console.assert(some.isSome()); // true
+   * console.assert(some.unwrap() === 1); // true
    */
   public static Some<T = void>(value?: T): Option<T> {
     return new Option(true, value);
@@ -644,7 +644,7 @@ export default class Option<T = unknown> {
    * const none = None();
    * 
    * console.log(none); // None
-   * assert(none.isNone()); // true
+   * console.assert(none.isNone()); // true
    */
   public static None<T = never>(): Option<T> {
     return new Option(false);
