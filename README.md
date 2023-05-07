@@ -88,8 +88,8 @@ arr
   .groupBy((a, b) => Math.round(a / 2) === Math.round(b / 2))
   .forEach(group => console.log(group)); // [1, 2], [3, 4], [5]
 
-arr.assert(arr.max() === 5);
-arr.assert(arr.min() === 1);
+console.assert(arr.max() === 5);
+console.assert(arr.min() === 1);
 ```
 
 ## Features
