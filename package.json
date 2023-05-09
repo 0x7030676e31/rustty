@@ -1,24 +1,24 @@
 {
   "name": "rustty",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "A package that brings the iconic Rust types such as Result and Option",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "LICENSE"
   ],
   "exports": {
     ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
-      "default": "./dist/esm/index.js"
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
     },
-  "./full": {
-      "import": "./dist/esm/full.js",
-      "require": "./dist/cjs/full.js",
-      "default": "./dist/esm/full.js"
+    "./full": {
+      "require": "./dist/full.js",
+      "import": "./dist/full.mjs",
+      "types": "./dist/full.d.ts"
     }
   },
   "repository": {
@@ -26,14 +26,13 @@
     "url": "https://github.com/0x7030676e31/rustty.git"
   },
   "scripts": {
-    "build": "rm -rf dist && npm run build:esm && npm run build:cjs",
-    "build:esm": "tsc",
-    "build:cjs": "tsc -m CommonJS --outDir dist/cjs"
+    "build": "rm -rf dist && tsc --emitDeclarationOnly && tsup ./src --format cjs,esm"
   },
   "author": "0x7030676e31",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^18.15.11"
+    "@types/node": "^18.15.11",
+    "tsup": "^6.7.0"
   },
   "keywords": [
     "rust",

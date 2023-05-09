@@ -7,7 +7,7 @@
     "module": "ESNext",
     "moduleResolution": "nodenext",
     "noUnusedLocals": true,
-    "outDir": "dist/esm",
+    "outDir": "dist",
     "sourceMap": true,
     "strict": true,
     "target": "ESNext",
