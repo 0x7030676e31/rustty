@@ -1,6 +1,6 @@
 {
   "name": "rustty",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "A package that brings the iconic Rust types such as Result and Option",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

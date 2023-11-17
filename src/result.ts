@@ -1,6 +1,5 @@
 import { RusttyCloneable, isRusttyClass } from "./utils";
 import Option from "./option";
-import util from "util";
 
 export default class Result<T = unknown, E = never> {
   private _ok: boolean;
@@ -573,9 +572,9 @@ export default class Result<T = unknown, E = never> {
    * This method is used by the console.log function when logging the Result object to the console.
    * @returns A string representation of the Result object in the format "Ok(value)" for success values, and "Err(value)" for error values.
    */
-  [util.inspect.custom](): string {
-    return this._ok ? `Ok(${util.inspect(this._value)})` : `Err(${util.inspect(this._value)})`;
-  }
+  // [util.inspect.custom](): string {
+  //   return this._ok ? `Ok(${util.inspect(this._value)})` : `Err(${util.inspect(this._value)})`;
+  // }
 
   /**
    * Creates a new Result object with a success value.

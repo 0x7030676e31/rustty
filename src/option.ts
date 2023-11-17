@@ -1,5 +1,3 @@
-import util from "util";
-
 export default class Option<T = unknown> {
   private _some: boolean;
   private _value: T;
@@ -618,9 +616,9 @@ export default class Option<T = unknown> {
    * This method is used by the console.log function when logging the Option object to the console.
    * @returns A string representation of the Option object in the format "Some(value)" for some values, and "None" for none values.
    */
-  [util.inspect.custom](): string {
-    return this._some ? `Some(${util.inspect(this._value)})` : "None";
-  }
+  // [util.inspect.custom](): string {
+  //   return this._some ? `Some(${util.inspect(this._value)})` : "None";
+  // }
 
   /**
    * Creates a new Option object with a some value.
